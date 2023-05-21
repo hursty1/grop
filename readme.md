@@ -21,3 +21,16 @@ Options:
   -f                 Print filename
   -h, --help         Print help
   -V, --version      Print version
+
+
+
+  Installations
+
+  mkdir C:/Utils
+
+  cargo build --release
+
+  cp .\target\release\grop.exe c:\utils\grop.exe
+
+  edit path variable and add C:\utilis\ as a folder
+  restart windows
