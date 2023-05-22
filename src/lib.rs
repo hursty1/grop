@@ -25,6 +25,10 @@ pub struct Args {
     /// Print filename
     #[arg(short, default_value_t=false)]
     filename:bool,
+
+    /// recursive directory searching
+    #[arg(short, default_value_t=false)]
+    recursive:bool,
 }
 
 pub struct Config {
@@ -32,6 +36,7 @@ pub struct Config {
     pub file_path: String,
     pub ignore_case: bool,
     pub filename:bool,
+    pub recursive:bool,
 }
 
 impl Config {
@@ -41,12 +46,14 @@ impl Config {
         let file_path = args.file.clone();
         let ignore_case = args.ignore_case.clone();
         let filename = args.filename.clone();
+        let recursive = args.recursive.clone();
 
         Ok(Config { 
             query, 
             file_path, 
             ignore_case,
             filename, 
+            recursive,
         })
     }
 }
@@ -57,7 +64,12 @@ pub fn run(mut config: Config) -> Result<(), Box<dyn Error>> {
     if !path.exists(){
         let mut matching_files: Vec<PathBuf> = Vec::new();
         // let pattern = format!("{}*.txt", path.parent().unwrap().display());
-        let pattern = format!("{}", &config.file_path);
+        let pattern:String;
+        if config.recursive {
+            pattern = format!("**/{}", &config.file_path);
+        } else {
+            pattern = format!("{}", &config.file_path);  
+        }
         for entry in glob(&pattern)? {
             if let Ok(path) = entry {
                 matching_files.push(path);

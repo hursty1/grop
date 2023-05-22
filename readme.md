@@ -19,6 +19,7 @@ Arguments:
 Options:
   -i, --ignore-case  ignore case when searching
   -f                 Print filename
+  -r                 recursive directory searching
   -h, --help         Print help
   -V, --version      Print version
 
